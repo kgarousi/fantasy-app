@@ -27,7 +27,56 @@ app.get('/', (req, res) => {
 });
 
 
-app.get('api/players', async (req, res) => {
+app.get('/api/players/receivers', async (req, res) => {
+    try {
+        // Construct the URL with the API key
+        const url = `https://api.sportsdata.io/v3/nfl/scores/json/PlayersByAvailable?key=${SPORTS_RADAR_KEY}`;
+
+        // Make the GET request using axios
+        const response = await axios.get(url);
+        const players = response.data
+
+        const receivers = players
+        .filter(player => player.FantasyPosition === "WR" && player.Status != "Inactive") // Filter to get only WRs
+        .map(player => ({
+            firstName: player.FirstName,
+            lastName: player.LastName
+        })); 
+
+        res.json(receivers)
+
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        res.status(500).send('Error fetching data');
+    }
+});
+
+app.get('/api/players/runningbacks', async (req, res) => {
+    try {
+        // Construct the URL with the API key
+        const url = `https://api.sportsdata.io/v3/nfl/scores/json/PlayersByAvailable?key=${SPORTS_RADAR_KEY}`;
+
+        // Make the GET request using axios
+        const response = await axios.get(url);
+        const players = response.data
+
+        const runningBacks = players
+        .filter(player => player.FantasyPosition === "RB" && player.Status != "Inactive") // Filter to get only RBs
+        .map(player => ({
+            firstName: player.FirstName,
+            lastName: player.LastName,
+            team: player.Team
+        })); 
+
+        res.json(runningBacks)
+
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        res.status(500).send('Error fetching data');
+    }
+});
+
+app.get('/api/players/quarterbacks', async (req, res) => {
     try {
         // Construct the URL with the API key
         const url = `https://api.sportsdata.io/v3/nfl/scores/json/PlayersByAvailable?key=${SPORTS_RADAR_KEY}`;
@@ -36,15 +85,69 @@ app.get('api/players', async (req, res) => {
         const response = await axios.get(url);
 
         const players = response.data
-        console.log(players)
-        const receivers = players
-        .filter(player => player.Position === "WR") // Filter to get only WRs
+
+        const quarterBacks = players
+        .filter(player => player.FantasyPosition === "QB" && player.Status != "Inactive") // Filter to get only RBs
         .map(player => ({
             firstName: player.FirstName,
-            lastName: player.LastName
+            lastName: player.LastName,
+            team: player.Team
         })); 
 
-        res.json(receivers)
+        res.json(quarterBacks)
+
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        res.status(500).send('Error fetching data');
+    }
+})
+
+app.get('/api/players/tightends', async (req, res) => {
+    try {
+        // Construct the URL with the API key
+        const url = `https://api.sportsdata.io/v3/nfl/scores/json/PlayersByAvailable?key=${SPORTS_RADAR_KEY}`;
+
+        // Make the GET request using axios
+        const response = await axios.get(url);
+
+        const players = response.data
+
+        const tightEnds = players
+        .filter(player => player.FantasyPosition === "TE" && player.Status != "Inactive") // Filter to get only RBs
+        .map(player => ({
+            firstName: player.FirstName,
+            lastName: player.LastName,
+            team: player.Team
+        })); 
+
+        res.json(tightEnds)
+
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        res.status(500).send('Error fetching data');
+    }
+})
+
+app.get('/api/players', async (req, res) => {
+    try {
+        // Construct the URL with the API key
+        const url = `https://api.sportsdata.io/v3/nfl/scores/json/PlayersByAvailable?key=${SPORTS_RADAR_KEY}`;
+
+        // Make the GET request using axios
+        const response = await axios.get(url);
+
+        const players = response.data
+
+        const allPlayers = players
+        .filter(player => (player.FantasyPosition === "WR" || player.FantasyPosition === "QB" || player.FantasyPosition === "TE" || player.FantasyPosition === "QB") && player.Status != "Inactive") // Filter to get only WRs
+        .map(player => ({
+            firstName: player.FirstName,
+            lastName: player.LastName,
+            team : player.Team,
+            position: player.FantasyPosition
+        })); 
+
+        res.json(allPlayers)
 
     } catch (error) {
         console.error('Error fetching data:', error);
