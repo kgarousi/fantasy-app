@@ -1,31 +1,20 @@
 const express = require("express");
 const axios = require("axios")
 const app = express();
-const path = require("path");
+const cors = require("cors")
 require("dotenv").config()
 
 app.use(express.json()); 
 app.use(express.urlencoded({ extended: true }));
+app.use(cors());
 
 const SPORTS_RADAR_KEY = process.env.SPORTS_RADAR_KEY
 const PORT = process.env.PORT
 
 
 app.listen(PORT, () =>{
-    console.log("App Listening on Port 3000")
+    console.log("App Listening on Port 5000")
 })
-
-app.get('/', (req, res) => {
-    // Calculate the path to 'index.html' located in 'views' directory at the root
-    const filePath = path.resolve(__dirname, '..', 'views', 'index.html');
-    res.sendFile(filePath, (err) => {
-        if (err) {
-            console.error('Error sending file:', err);
-            res.status(err.status).end();
-        }
-    });
-});
-
 
 app.get('/api/players/receivers', async (req, res) => {
     try {
@@ -139,7 +128,7 @@ app.get('/api/players', async (req, res) => {
         const players = response.data
 
         const allPlayers = players
-        .filter(player => (player.FantasyPosition === "WR" || player.FantasyPosition === "QB" || player.FantasyPosition === "TE" || player.FantasyPosition === "QB") && player.Status != "Inactive") // Filter to get only WRs
+        .filter(player => (player.FantasyPosition === "WR" || player.FantasyPosition === "QB" || player.FantasyPosition === "TE") && player.Status != "Inactive") // Filter to get only WRs
         .map(player => ({
             firstName: player.FirstName,
             lastName: player.LastName,
