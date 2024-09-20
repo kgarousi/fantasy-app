@@ -23,8 +23,54 @@ const Players = () => {
 
     fetchData();
   }, []);
+
+
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
+
+  console.log(data)
+
+  return (
+    <div className="players">
+      <div>
+      {data
+      .filter((item) => item.position === "QB") 
+      .map((item) => (
+        <div key={item.id}> {/* Ensure each item has a unique key */}
+          {item.firstName} {item.lastName}
+        </div>
+      ))}
+      </div>
+
+      <div>
+      {data
+      .filter((item) => item.position === "RB") 
+      .map((item) => (
+        <div key={item.id}> {/* Ensure each item has a unique key */}
+          {item.firstName} {item.lastName}
+        </div>
+      ))}
+      </div>
+      <div>
+      {data
+      .filter((item) => item.position === "WR") 
+      .map((item) => (
+        <div key={item.id}> {/* Ensure each item has a unique key */}
+          {item.firstName} {item.lastName}
+        </div>
+      ))}
+      </div>
+      <div>
+      {data
+      .filter((item) => item.position === "TE") 
+      .map((item) => (
+        <div key={item.id}> {/* Ensure each item has a unique key */}
+          {item.firstName} {item.lastName}
+        </div>
+      ))}
+      </div>
+    </div>
+  );
 
   
 };
