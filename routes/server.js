@@ -128,7 +128,7 @@ app.get('/api/players', async (req, res) => {
         const players = response.data
 
         const allPlayers = players
-        .filter(player => (player.FantasyPosition === "WR" || player.FantasyPosition === "QB" || player.FantasyPosition === "TE") && player.Status != "Inactive") // Filter to get only WRs
+        .filter(player => (player.FantasyPosition === "WR" || player.FantasyPosition === "QB" || player.FantasyPosition === "TE" || player.FantasyPosition === "RB") && player.Status != "Inactive") // Filter to get only WRs
         .map(player => ({
             firstName: player.FirstName,
             lastName: player.LastName,
