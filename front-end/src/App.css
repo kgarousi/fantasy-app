@@ -1,3 +1,15 @@
+:root{
+  --primary-color: #38598b;
+  --secondary-color: #a2a8d3;
+  --font-color: white ;
+  --ff: "Archivo"
+}
+
+*{
+  background-color: var(--primary-color);
+  color: var(--font-color);
+  font-family: var(--ff);
+}
 .App {
   box-sizing: border-box;
   margin: 0;
@@ -15,4 +27,7 @@
   flex-direction: row;
   justify-content: space-around; /* Change baseline to flex-start */
   align-items: flex-start; /* Corrected from top to flex-start */
+}
+.player-link:hover{
+  color: var(--secondary-color)
 }

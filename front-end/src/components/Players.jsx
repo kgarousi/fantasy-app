@@ -28,7 +28,7 @@ const Players = () => {
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
 
-  console.log(data)
+  data.sort((a,b) => a.lastName.localeCompare(b.lastName))
 
   return (
     <div className="players">
@@ -37,7 +37,7 @@ const Players = () => {
       .filter((item) => item.position === "QB") 
       .map((item) => (
         <div key={item.id}> {/* Ensure each item has a unique key */}
-          {item.firstName} {item.lastName}
+          <a className='player-link' href="/">{item.firstName} {item.lastName}</a>
         </div>
       ))}
       </div>
